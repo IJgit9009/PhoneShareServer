@@ -7,10 +7,11 @@ SECRET = "my_secret_token"
 
 HTML = """
 <h1>Phone Control Panel</h1>
-<form method="post" action="/send">
-    <button name="cmd" value="vibrate">VIBRATE</button>
-    <button name="cmd" value="flash">FLASH</button>
-    <button name="cmd" value="sound">SOUND</button>
+
+<form action="/send" method="post">
+    <button type="submit" name="cmd" value="vibrate">VIBRATE</button>
+    <button type="submit" name="cmd" value="flash">FLASH</button>
+    <button type="submit" name="cmd" value="sound">SOUND</button>
 </form>
 """
 
