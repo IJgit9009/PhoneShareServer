@@ -30,11 +30,14 @@ def send():
 def get_command():
     global command
     token = request.args.get("token")
+
     if token != SECRET:
-        return {"command": "none"}
+        return "none"
 
     temp = command
     command = "none"
-    return {"command": temp}
 
-app.run(host="0.0.0.0", port=10000)
+    return temp
+
+if __name__ == "__main__":
+    app.run()
