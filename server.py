@@ -8,7 +8,6 @@ SECRET = "my_secret_token"
 HTML = """
 <h1>Phone Control Panel</h1>
 <form method="post" action="/send">
-    <input type="hidden" name="token" value="my_secret_token">
     <button name="cmd" value="vibrate">VIBRATE</button>
     <button name="cmd" value="flash">FLASH</button>
     <button name="cmd" value="sound">SOUND</button>
@@ -19,34 +18,19 @@ HTML = """
 def home():
     return render_template_string(HTML)
 
-# 📤 кнопка
 @app.route("/send", methods=["POST"])
 def send():
     global command
     command = request.form.get("cmd")
+    print("SET COMMAND:", command)   # 👈 важно для проверки
     return "ok"
 
-# 📥 Android получает
 @app.route("/get_command")
 def get_command():
     global command
-    token = request.args.get("token")
-
-    if token != SECRET:
-        return "none"
-
-    return command
-
-# 🧹 очистка (ВАЖНО: теперь безопасная)
-@app.route("/clear")
-def clear():
-    global command
-    token = request.args.get("token")
-
-    if token == SECRET:
-        command = "none"
-
-    return "ok"
+    temp = command
+    command = "none"
+    return temp
 
 if __name__ == "__main__":
     app.run()
