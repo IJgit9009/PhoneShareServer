@@ -15,23 +15,18 @@ HTML = """
 </form>
 """
 
-# 🌐 Главная панель
 @app.route("/")
 def home():
     return render_template_string(HTML)
 
-# 📤 Отправка команды
+# 📤 команда
 @app.route("/send", methods=["POST"])
-def send():
+def send_command():
     global command
-
-    if request.form.get("token") != SECRET:
-        return "unauthorized"
-
-    command = request.form["cmd"]
+    command = request.form.get("cmd")
     return redirect("/")
 
-# 📥 Получение команды (Android)
+# 📥 получить команду
 @app.route("/get_command")
 def get_command():
     token = request.args.get("token")
@@ -41,13 +36,16 @@ def get_command():
 
     return command
 
-@app.route("/send", methods=["POST"])
-def send():
+# 🧹 очистка (ТОЛЬКО GET чтобы не ломалось)
+@app.route("/clear")
+def clear():
     global command
-    command = request.form["cmd"]
-    print("COMMAND SET:", command)  # 👈 ДОБАВЬ ЭТО
-    return redirect("/")
+    token = request.args.get("token")
 
-# 🚀 запуск (локально)
+    if token == SECRET:
+        command = "none"
+
+    return "ok"
+
 if __name__ == "__main__":
     app.run()
