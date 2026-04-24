@@ -41,17 +41,12 @@ def get_command():
 
     return command
 
-# 🧹 Очистка команды (после выполнения на телефоне)
-@app.route("/clear", methods=["POST"])
-def clear():
+@app.route("/send", methods=["POST"])
+def send():
     global command
-    token = request.args.get("token")
-
-    if token != SECRET:
-        return "unauthorized"
-
-    command = "none"
-    return "ok"
+    command = request.form["cmd"]
+    print("COMMAND SET:", command)  # 👈 ДОБАВЬ ЭТО
+    return redirect("/")
 
 # 🚀 запуск (локально)
 if __name__ == "__main__":
