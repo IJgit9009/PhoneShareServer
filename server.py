@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template_string
+from flask import Flask, request, render_template_string
 
 app = Flask(__name__)
 
@@ -19,16 +19,17 @@ HTML = """
 def home():
     return render_template_string(HTML)
 
-# 📤 команда
+# 📤 кнопка
 @app.route("/send", methods=["POST"])
-def send_command():
+def send():
     global command
     command = request.form.get("cmd")
-    return redirect("/")
+    return "ok"
 
-# 📥 получить команду
+# 📥 Android получает
 @app.route("/get_command")
 def get_command():
+    global command
     token = request.args.get("token")
 
     if token != SECRET:
@@ -36,7 +37,7 @@ def get_command():
 
     return command
 
-# 🧹 очистка (ТОЛЬКО GET чтобы не ломалось)
+# 🧹 очистка (ВАЖНО: теперь безопасная)
 @app.route("/clear")
 def clear():
     global command
