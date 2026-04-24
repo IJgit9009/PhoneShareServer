@@ -21,8 +21,8 @@ def home():
 @app.route("/send", methods=["POST"])
 def send():
     global command
-    command = request.form.get("cmd")
-    print("SET COMMAND:", command)   # 👈 важно для проверки
+    command = "vibrate"
+    print("BUTTON WORKED")
     return "ok"
 
 @app.route("/get_command")
